@@ -1,0 +1,92 @@
+
+
+
+:root {
+    --verde-oscuro: #154e32;
+    --verde-principal: #237a4b;
+    --verde-medio: #75a985;
+    --verde-claro: #d9ecdd;
+    --verde-fondo: #f1f8f2;
+}
+
+/* Fondo general */
+body {
+    background-color: var(--verde-fondo) !important;
+    color: #253b2b;
+}
+
+/* Barra de navegación */
+.navbar.bg-primary {
+    background-color: var(--verde-oscuro) !important;
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* Encabezados */
+.card-header.bg-primary {
+    background-color: var(--verde-principal) !important;
+}
+
+/* Tarjetas */
+.card {
+    border: 1px solid var(--verde-claro);
+    border-radius: 10px;
+}
+
+/* Encabezado  */
+.table-dark {
+    --bs-table-bg: var(--verde-oscuro);
+    --bs-table-color: #ffffff;
+}
+
+/* Botón guardar y registrar */
+.btn-success {
+    --bs-btn-bg: #237a4b;
+    --bs-btn-border-color: #237a4b;
+    --bs-btn-hover-bg: #185b38;
+    --bs-btn-hover-border-color: #185b38;
+}
+
+
+.btn-warning {
+    --bs-btn-bg: #bce0c5;
+    --bs-btn-border-color: #bce0c5;
+    --bs-btn-color: #154e32;
+    --bs-btn-hover-bg: #99cdaa;
+    --bs-btn-hover-border-color: #99cdaa;
+    --bs-btn-hover-color: #154e32;
+}
+
+/* eliminar */
+.btn-danger {
+    --bs-btn-bg: #365c45;
+    --bs-btn-border-color: #365c45;
+    --bs-btn-hover-bg: #244331;
+    --bs-btn-hover-border-color: #244331;
+}
+
+/*  cancelar */
+.btn-secondary {
+    --bs-btn-bg: #829b8a;
+    --bs-btn-border-color: #829b8a;
+}
+
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--verde-medio);
+    box-shadow: 0 0 0 0.2rem rgba(35, 122, 75, 0.15);
+}
+
+
+.form-check-input:checked {
+    background-color: var(--verde-principal);
+    border-color: var(--verde-principal);
+}
+
+/* Títulos */
+h2, h3 {
+    color: var(--verde-oscuro);
+}
