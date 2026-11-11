@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{general/fragmentos :: head}"/>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"/>
+
+        <!-- Bienvenida -->
+        <section class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="display-6">[[#{index.bienvenida}]]</h2>
+                    <p class="lead">[[#{index.descripcion}]]</p>
+                    <a th:href="@{/catalogo}" class="btn btn-success btn-lg">
+                        <i class="fa-solid fa-store"></i> [[#{index.verCatalogo}]]</a>
+                </div>
+                <div class="col-md-4 text-center d-none d-md-block">
+                    <i class="fa-solid fa-truck-fast fa-8x text-success"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accesos rápidos a los módulos del sistema -->
+        <section class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body">
+                            <i class="fa-solid fa-store fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">[[#{plantilla.catalogo}]]</h5>
+                            <p class="card-text">[[#{index.catalogo.texto}]]</p>
+                            <a th:href="@{/catalogo}" class="btn btn-outline-success">[[#{index.ingresar}]]</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body">
+                            <i class="fa-solid fa-clipboard-list fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">[[#{plantilla.pedidos}]]</h5>
+                            <p class="card-text">[[#{index.pedidos.texto}]]</p>
+                            <a th:href="@{/pedido/listado}" class="btn btn-outline-success">[[#{index.ingresar}]]</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 text-center shadow-sm">
+                        <div class="card-body">
+                            <i class="fa-solid fa-boxes-stacked fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">[[#{plantilla.productos}]]</h5>
+                            <p class="card-text">[[#{index.productos.texto}]]</p>
+                            <a th:href="@{/producto/listado}" class="btn btn-outline-success">[[#{index.ingresar}]]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer th:replace="~{general/fragmentos :: footer}"/>
+    </body>
+</html>
