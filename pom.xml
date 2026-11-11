@@ -85,6 +85,12 @@
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Base de datos en memoria SOLO para las pruebas (mvn test no necesita MySQL) -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<!-- WebJars: Bootstrap, Font Awesome, jQuery y Popper (igual que en clase) -->
 		<dependency>
 			<groupId>org.webjars</groupId>
