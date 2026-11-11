@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <!-- Fragmento #1: head con Bootstrap y Font Awesome por WebJars (como en clase) -->
+    <head th:fragment="head">
+        <title th:text="#{aplicacion.titulo}">Distribuidora Amaral</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
+        <link th:href="@{/css/estilos.css}" rel="stylesheet"/>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <script th:src="@{/js/rutinas.js}"></script>
+    </head>
+
+    <body>
+        <!-- Fragmento #2: encabezado con el menú de Distribuidora Amaral -->
+        <header th:fragment="header" class="header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+                <div class="container">
+                    <a th:href="@{/}" class="navbar-brand">
+                        <i class="fa-solid fa-truck-fast"></i> [[#{aplicacion.titulo}]]</a>
+                    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <ul class="navbar-nav">
+                            <li class="nav-item px-2"><a class="nav-link" th:href="@{/}">
+                                    <i class="fa-solid fa-house"></i> [[#{plantilla.inicio}]]</a></li>
+                            <li class="nav-item px-2"><a class="nav-link" th:href="@{/catalogo}">
+                                    <i class="fa-solid fa-store"></i> [[#{plantilla.catalogo}]]</a></li>
+                            <li class="nav-item px-2"><a class="nav-link" th:href="@{/pedido/listado}">
+                                    <i class="fa-solid fa-clipboard-list"></i> [[#{plantilla.pedidos}]]</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                    <i class="fa-solid fa-gear"></i> [[#{plantilla.admin}]]</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" th:href="@{/producto/listado}">[[#{plantilla.productos}]]</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/categoria/listado}">[[#{plantilla.categorias}]]</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/inventario/listado}">[[#{plantilla.inventario}]]</a></li>
+                                    <li><hr class="dropdown-divider"/></li>
+                                    <li><a class="dropdown-item" th:href="@{/usuario/listado}">[[#{plantilla.usuarios}]]</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                    <i class="fa-solid fa-language"></i> [[#{plantilla.idioma}]]</a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" th:href="@{''(lang=es)}">Español</a></li>
+                                    <li><a class="dropdown-item" th:href="@{''(lang=en)}">English</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <section id="main-header" class="py-2 bg-success text-white">
+                <div class="container">
+                    <h1 class="h3 m-0"><i class="fa-solid fa-boxes-stacked"></i> [[#{plantilla.lema}]]</h1>
+                </div>
+            </section>
+        </header>
+
+        <!-- Fragmento #3: pie de página -->
+        <footer th:fragment="footer" class="p-2 mt-5 bg-success text-white">
+            <p class="lead text-center m-0">[[#{plantilla.derechos}]] &copy;</p>
+        </footer>
+
+        <!-- Fragmento #4: ventana tipo Toast para mostrar mensajes al usuario -->
+        <section th:fragment="mostrarToast">
+            <div aria-live="polite" aria-atomic="true"
+                 class="position-fixed top-50 start-50 translate-middle" style="z-index: 1080;">
+                <div th:if="${error}" class="toast show" role="alert" aria-live="assertive"
+                     aria-atomic="true" data-bs-autohide="true">
+                    <div class="toast-header text-white bg-danger">
+                        <i class="fa-solid fa-bomb"></i> <strong class="me-auto"> [[#{error}]]</strong>
+                    </div>
+                    <div class="toast-body">
+                        <p>[[${error}]]</p>
+                        <div class="mt-2 pt-2 border-top text-center">
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                    data-bs-dismiss="toast">[[#{accion.cerrar}]]</button>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${todoOk}" class="toast show" role="status" aria-live="polite"
+                     aria-atomic="true" data-bs-autohide="true">
+                    <div class="toast-header text-white bg-success">
+                        <i class="fa-solid fa-square-check"></i> <strong class="me-auto"> [[#{atencion}]]</strong>
+                    </div>
+                    <div class="toast-body">
+                        <p>[[${todoOk}]]</p>
+                        <div class="mt-2 pt-2 border-top text-center">
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                    data-bs-dismiss="toast">[[#{accion.cerrar}]]</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
