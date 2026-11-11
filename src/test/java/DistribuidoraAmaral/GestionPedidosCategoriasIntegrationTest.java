@@ -58,15 +58,14 @@ class GestionPedidosCategoriasIntegrationTest {
     void preparar() {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
 
-        Cliente cliente = new Cliente();
-        cliente.setIdUsuario(2);
-        cliente.setUsername("superpinar");
-        cliente.setNombre("Carlos");
-        cliente.setApellidos("Rodríguez Solís");
-        cliente.setNombreComercio("Supermercado El Pinar");
-        cliente.setTelefono("2716-1122");
-        cliente.setDireccion("200 m norte del parque, Guácimo, Limón");
-        em.persist(cliente);
+        // El cliente se inserta con SQL (como en docs/amaral.sql) porque la entidad
+        // Cliente es de solo lectura y no maneja columnas como password.
+        // Así la prueba no depende de la entidad Usuario del CRUD de usuarios.
+        em.createNativeQuery("INSERT INTO usuario (id_usuario, username, password, nombre, apellidos,"
+                + " nombre_comercio, telefono, direccion) VALUES (2, 'superpinar', 'Amaral123', 'Carlos',"
+                + " 'Rodríguez Solís', 'Supermercado El Pinar', '2716-1122',"
+                + " '200 m norte del parque, Guácimo, Limón')").executeUpdate();
+        Cliente cliente = em.find(Cliente.class, 2);
 
         limpieza = new Categoria();
         limpieza.setDescripcion("Limpieza");
