@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head th:replace="~{general/fragmentos :: head}"/>
+    <body class="bg-light">
+
+        <header th:replace="~{general/fragmentos :: header}"/>
+
+        <!-- CRUD de categorías: registrar y modificar - Jezrael Hernández -->
+        <main class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+
+                        <div class="card-header bg-primary text-white py-3">
+                            <h4 class="mb-0 fw-bold"
+                                th:text="${categoria.idCategoria == null} ? #{categoria.registrar} : #{categoria.modificar}">
+                                Registrar categoría
+                            </h4>
+                        </div>
+
+                        <div class="card-body p-4">
+                            <p class="text-muted mb-4">[[#{categoria.formulario.ayuda}]]</p>
+
+                            <!-- Error de negocio (por ejemplo, nombre duplicado) -->
+                            <div th:if="${error}" class="alert alert-danger">
+                                <i class="fa-solid fa-triangle-exclamation"></i> [[${error}]]
+                            </div>
+
+                            <form th:action="@{/categoria/guardar}" th:object="${categoria}" method="post" novalidate>
+
+                                <input type="hidden" th:field="*{idCategoria}"/>
+
+                                <!-- DESCRIPCIÓN -->
+                                <div class="mb-3">
+                                    <label for="descripcion" class="form-label fw-semibold">[[#{categoria.descripcion}]] *</label>
+                                    <input type="text" id="descripcion" class="form-control"
+                                           th:field="*{descripcion}" maxlength="50"
+                                           th:classappend="${#fields.hasErrors('descripcion') or error != null} ? 'is-invalid'"
+                                           th:placeholder="#{categoria.descripcion.placeholder}" required/>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}"
+                                         th:errors="*{descripcion}">Error</div>
+                                </div>
+
+                                <!-- IMAGEN -->
+                                <div class="mb-3">
+                                    <label for="rutaImagen" class="form-label fw-semibold">[[#{categoria.imagen}]]</label>
+                                    <input type="url" id="rutaImagen" class="form-control"
+                                           th:field="*{rutaImagen}" maxlength="1024"
+                                           th:classappend="${#fields.hasErrors('rutaImagen')} ? 'is-invalid'"
+                                           placeholder="https://ejemplo.com/imagen.jpg"/>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('rutaImagen')}"
+                                         th:errors="*{rutaImagen}">Error</div>
+                                </div>
+
+                                <!-- ESTADO -->
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <input type="checkbox" id="activo" class="form-check-input" th:field="*{activo}"/>
+                                        <label for="activo" class="form-check-label fw-semibold">[[#{categoria.activa}]]</label>
+                                    </div>
+                                    <div class="form-text">[[#{categoria.activa.ayuda}]]</div>
+                                </div>
+
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <button type="submit" class="btn btn-success fw-semibold">
+                                        <i class="fa-solid fa-floppy-disk"></i> [[#{accion.guardar}]]
+                                    </button>
+                                    <a th:href="@{/categoria/listado}" class="btn btn-secondary">[[#{accion.regresar}]]</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="card-footer text-center text-muted">
+                            Distribuidora Amaral - [[#{plantilla.admin}]]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"/>
+    </body>
+</html>
