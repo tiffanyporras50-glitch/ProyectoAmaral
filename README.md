@@ -70,3 +70,36 @@ docs/amaral.sql     Script de la base de datos
 |---|---|
 | 1 – Historias de usuario y prototipo | ✅ Entregado |
 | 2 – Implementación del 50% | 🚧 En progreso: estructura base y script de base de datos listos |
+
+### Módulos implementados en el Avance 2
+| Módulo | Ruta | Estado |
+|---|---|---|
+| Plantilla, inicio e idiomas | `/` | ✅ |
+| Catálogo de productos (HU 11–12) | `/catalogo` | ✅ |
+| CRUD de productos (HU 06–09) | `/producto/listado` | ✅ |
+| Gestionar pedidos (HU 17) | `/pedido/listado` | ✅ |
+| CRUD de categorías | `/categoria/listado` | ✅ |
+
+**HU 17 – Gestionar pedidos:** el administrador ve los pedidos (número, cliente, fecha, total y estado),
+los filtra por estado, consulta el detalle con sus productos y cambia el estado. Solo se permiten estas transiciones:
+
+| Estado actual | Puede pasar a |
+|---|---|
+| RECIBIDO | CONFIRMADO, CANCELADO |
+| CONFIRMADO | LISTO_DESPACHO, CANCELADO |
+| LISTO_DESPACHO | ENTREGADO, NO_ENTREGADO |
+| NO_ENTREGADO | LISTO_DESPACHO (reintento), CANCELADO |
+| ENTREGADO, CANCELADO | — (estados finales) |
+
+Para CANCELADO y NO_ENTREGADO se pide un motivo, que se agrega a la observación del pedido.
+
+**CRUD de categorías:** listar, registrar, consultar (con sus productos), editar y eliminar.
+No se permiten nombres duplicados ni vacíos. Si la categoría tiene productos no se borra: se desactiva
+y deja de aparecer en los filtros del catálogo (se puede reactivar al editarla).
+
+## Pruebas automáticas
+```
+mvn test
+```
+Las pruebas usan una base **H2 en memoria** (`src/test/resources/application.properties`), por lo que
+no necesitan MySQL ni modifican la base `amaral`. En NetBeans: clic derecho al proyecto → *Test*.

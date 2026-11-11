@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head th:replace="~{general/fragmentos :: head}"/>
+    <body class="bg-light">
+
+        <header th:replace="~{general/fragmentos :: header}"/>
+
+        <!-- HU 17: Gestionar pedidos - Jezrael Hernández -->
+        <div class="container mt-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <h2 class="m-0"><i class="fa-solid fa-clipboard-list"></i> [[#{pedido.titulo}]]</h2>
+                <span class="text-muted">[[#{pedido.total.registros}]]: <strong th:text="${#lists.size(pedidos)}">0</strong></span>
+            </div>
+
+            <!-- Filtro por estado -->
+            <ul class="nav nav-pills flex-wrap gap-1 mb-4">
+                <li class="nav-item">
+                    <a th:href="@{/pedido/listado}" class="nav-link"
+                       th:classappend="${estadoActual == null} ? 'active'">[[#{pedido.filtro.todos}]]</a>
+                </li>
+                <li class="nav-item" th:each="e : ${estados}">
+                    <a th:href="@{/pedido/listado(estado=${e.name()})}" class="nav-link"
+                       th:classappend="${estadoActual == e} ? 'active'">
+                        [[#{${'pedido.estado.' + e.name()}}]]
+                        <span class="badge rounded-pill text-bg-light border ms-1" th:text="${conteo.get(e)}">0</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>[[#{pedido.numero}]]</th>
+                                    <th>[[#{pedido.cliente}]]</th>
+                                    <th>[[#{pedido.fecha}]]</th>
+                                    <th>[[#{pedido.formaEntrega}]]</th>
+                                    <th class="text-end">[[#{pedido.totalPedido}]]</th>
+                                    <th>[[#{pedido.estado}]]</th>
+                                    <th>[[#{pedido.acciones}]]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="p : ${pedidos}">
+                                    <td class="fw-semibold" th:text="'#' + ${p.idPedido}">#1</td>
+                                    <td>
+                                        <div th:text="${p.cliente.nombreComercio != null ? p.cliente.nombreComercio : p.cliente.nombreCompleto}">Cliente</div>
+                                        <small class="text-muted" th:text="${p.cliente.nombreCompleto}">Contacto</small>
+                                    </td>
+                                    <td th:text="${p.fecha != null ? #temporals.format(p.fecha, 'dd/MM/yyyy HH:mm') : ''}">01/01/2026</td>
+                                    <td th:text="#{${'pedido.entrega.' + p.formaEntrega}}">Envío</td>
+                                    <td class="text-end"
+                                        th:text="'₡' + ${#numbers.formatDecimal(p.total, 1, 'COMMA', 2, 'POINT')}">₡0.00</td>
+                                    <td>
+                                        <span class="badge" th:classappend="'text-bg-' + ${p.estado.color}"
+                                              th:text="#{${'pedido.estado.' + p.estado.name()}}">Estado</span>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <a class="btn btn-warning btn-sm"
+                                           th:href="@{/pedido/detalle/{id}(id=${p.idPedido})}">
+                                            <i class="fa-solid fa-eye"></i> [[#{pedido.gestionar}]]
+                                        </a>
+                                        <!-- Atajo para confirmar un pedido recién recibido -->
+                                        <form th:if="${p.estado.name() == 'RECIBIDO'}"
+                                              th:action="@{/pedido/estado}" method="post" class="d-inline">
+                                            <input type="hidden" name="idPedido" th:value="${p.idPedido}"/>
+                                            <input type="hidden" name="estado" value="CONFIRMADO"/>
+                                            <input type="hidden" name="origen" value="listado"/>
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fa-solid fa-check"></i> [[#{pedido.confirmar}]]
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(pedidos)}">
+                                    <td colspan="7" class="text-center text-muted">[[#{pedido.vacio}]]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section th:replace="~{general/fragmentos :: mostrarToast}"/>
+        <footer th:replace="~{general/fragmentos :: footer}"/>
+    </body>
+</html>

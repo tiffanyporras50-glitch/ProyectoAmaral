@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="es">
+    <head th:replace="~{general/fragmentos :: head}"/>
+    <body class="bg-light">
+
+        <header th:replace="~{general/fragmentos :: header}"/>
+
+        <!-- CRUD de categorías: consultar - Jezrael Hernández -->
+        <div class="container mt-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <h2 class="m-0"><i class="fa-solid fa-tag"></i> [[${categoria.descripcion}]]</h2>
+                <div class="d-flex gap-2">
+                    <a th:href="@{/categoria/modificar/{id}(id=${categoria.idCategoria})}" class="btn btn-warning">
+                        <i class="fa-solid fa-pen"></i> [[#{accion.actualizar}]]
+                    </a>
+                    <a th:href="@{/categoria/listado}" class="btn btn-secondary">
+                        <i class="fa-solid fa-arrow-left"></i> [[#{accion.regresar}]]
+                    </a>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="d-flex justify-content-center align-items-center bg-light p-3" style="height: 180px;">
+                            <img th:if="${categoria.rutaImagen != null and !categoria.rutaImagen.isBlank()}"
+                                 th:src="${categoria.rutaImagen}" th:alt="${categoria.descripcion}"
+                                 class="img-fluid" style="max-height: 100%; object-fit: contain;"/>
+                            <i th:unless="${categoria.rutaImagen != null and !categoria.rutaImagen.isBlank()}"
+                               class="fa-solid fa-tags fa-4x text-secondary"></i>
+                        </div>
+                        <div class="card-body">
+                            <dl class="mb-0">
+                                <dt>ID</dt>
+                                <dd th:text="${categoria.idCategoria}">1</dd>
+                                <dt>[[#{categoria.estado}]]</dt>
+                                <dd>
+                                    <span th:if="${categoria.activo}" class="badge text-bg-success">[[#{categoria.activa}]]</span>
+                                    <span th:unless="${categoria.activo}" class="badge text-bg-secondary">[[#{categoria.inactiva}]]</span>
+                                </dd>
+                                <dt>[[#{categoria.productos}]]</dt>
+                                <dd th:text="${#lists.size(productos)}">0</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fa-solid fa-boxes-stacked"></i> [[#{categoria.productosAsociados}]]</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped align-middle">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>[[#{pedido.producto}]]</th>
+                                            <th>[[#{categoria.marca}]]</th>
+                                            <th class="text-end">[[#{categoria.precio}]]</th>
+                                            <th class="text-center">[[#{categoria.existencias}]]</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="p : ${productos}">
+                                            <td>
+                                                [[${p.nombre}]]
+                                                <span th:unless="${p.activo}" class="badge text-bg-secondary ms-1">[[#{categoria.inactiva}]]</span>
+                                            </td>
+                                            <td th:text="${p.marca}">Marca</td>
+                                            <td class="text-end" th:text="'₡' + ${#numbers.formatDecimal(p.precio, 1, 'COMMA', 2, 'POINT')}">₡0.00</td>
+                                            <td class="text-center" th:text="${p.existencias}">0</td>
+                                        </tr>
+                                        <tr th:if="${#lists.isEmpty(productos)}">
+                                            <td colspan="4" class="text-center text-muted">[[#{categoria.sinProductos}]]</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer th:replace="~{general/fragmentos :: footer}"/>
+    </body>
+</html>

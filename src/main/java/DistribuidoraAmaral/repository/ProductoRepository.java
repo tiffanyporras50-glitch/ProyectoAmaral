@@ -15,4 +15,9 @@ public interface ProductoRepository
   
     public List<Producto> findByActivoTrueAndNombreContainingIgnoreCaseOrActivoTrueAndMarcaContainingIgnoreCaseOrderByNombreAsc(
             String nombre, String marca);
+
+    // CRUD de categorías: productos (activos e inactivos) asociados a una categoría
+    public List<Producto> findByCategoriaIdCategoriaOrderByNombreAsc(Integer idCategoria);
+
+    public long countByCategoriaIdCategoria(Integer idCategoria);
 }
